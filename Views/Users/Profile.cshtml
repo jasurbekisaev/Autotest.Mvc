@@ -1,0 +1,78 @@
+﻿@using Autotest.Mvc.Services
+@using Autotest.Mvc.Repositories
+@inject QuestionService QuestionService
+
+@model User
+
+<h1 style="color:yellow" >Profile</h1>
+
+<img alt="Profile photo" style="width: 300px; height: 300px" src="@Model.PhotoPath"/>
+
+<h3 style="color:azure">Name: @Model.Name</h3>
+<h3 style="color:azure" >Username: @Model.Username</h3>
+
+<a class="btn btn-primary" asp-action="LogOut">Log out</a>
+
+<h1 style ="color:azure">TotalCorrect: @Model.Tickets.Sum(t=>t.CorrectCount) / @QuestionService.Questions.Count</h1>
+<h1 style="color:azure">TotalFinishedTickets: @Model.Tickets.Count(t=>t.IsCompleted) / @QuestionService.TicketsCount</h1>
+
+@{
+    var lastweek = Model.Tickets
+        .Where(t => t.Date > DateTime.Now.AddMinutes(-2))
+        .Sum(t => t.CorrectCount);
+}
+
+    <h1 style="color:azure" >Last week : @lastweek</h1>
+
+@{
+    var ticket = Model.Tickets.MaxBy(t => t.Date);
+}
+
+<div class="card">
+    <div class="card-body">
+            <h4 class="card-title" style="color:red" >Ticket @(ticket.Id - 69)</h4>
+            
+        @if (ticket.Answers.Count > 0)
+        {
+            <p class="card-text">@ticket.CorrectCount / @ticket.QuestionsCount</p>
+            <p class="card-text">@ticket.Date.ToString("f")</p>
+        }
+
+        <a asp-controller="Tickets" asp-action="StartTicket" asp-route-ticketIndex="@ticket.Id">Start</a>
+    </div>
+</div>
+
+
+<br/>
+
+<br/>
+
+<h1 style="color:red">Ticket Results</h1>
+
+<table class="table">
+    <thead>
+            <tr style="color:red; font-size:35px">
+        <th scope="col">#</th>
+        <th scope="col">Ticket Index</th>
+        <th scope="col">Correct Count</th>
+        <th scope="col">Question Count</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    @for (int i=0; i < Model.Tickets.Count; i++)
+    {
+        var ticketResult = Model.Tickets[i];
+
+       
+                <tr style="color:white; font-size:25px">
+                    <th scope="row">@(i+1)</th>
+                    <td>@ticketResult.TicketId</td>
+                    <td>@ticketResult.CorrectCount</td>
+                    <td>@ticketResult.QuestionsCount </td>
+                </tr>
+        
+    }
+
+    </tbody>
+</table>

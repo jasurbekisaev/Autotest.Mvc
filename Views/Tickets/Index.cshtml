@@ -1,0 +1,62 @@
+﻿@model User
+
+@*
+
+@for (var i = 0; i < Model.Tickets.Count; i++)
+{
+    var ticket = Model.Tickets[i];
+
+    <div class="card row col-lg-12 col-md-12 col-sm-10 gap-2 d-flex justify-content-center">
+        <div class="card-body">
+            <h4 class="card-title">Ticket @(i+1)</h4>
+
+            @if (ticket.Answers.Count > 0)
+            {
+                <p class="card-text">@ticket.CorrectCount / @ticket.QuestionsCount</p>
+                <p class="card-text">@ticket.Date.ToString("f")</p>
+            }
+            
+            <a asp-controller="Tickets" asp-action="StartTicket" asp-route-ticketIndex="@(ticket.TicketId+1)">Start</a>
+        </div>
+    </div>
+} 
+
+*@
+<div style="display: flex; justify-content: center;">
+    <strong>
+        <h1 style="color: yellow; flex-shrink: 0; margin: 0;">Tickets</h1>
+    </strong>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        @for (var i = 0; i < 14; i++)
+        {
+            <div class="row">
+                @for (var j = 0; j < 5; j++)
+                {
+                    var index = i * 5 + j;
+                    if (index >= Model.Tickets.Count)
+                    {
+                        break;
+                    }
+
+                    var ticket = Model.Tickets[index];
+
+                    <div class="card col-lg-2 col-md-4 col-sm-6 gap-2 d-flex justify-content-center mt-3">
+                        <div class="card-body">
+                            <h4 class="card-title">Ticket @(index + 1)</h4>
+
+                            @if (ticket.Answers.Count > 0)
+                            {
+                                <p class="card-text">@ticket.CorrectCount / @ticket.QuestionsCount</p>
+                                <p class="card-text">@ticket.Date.ToString("f")</p>
+                            }
+
+                            <a asp-controller="Tickets" asp-action="StartTicket" asp-route-ticketIndex="@(ticket.TicketId+1)">Start</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

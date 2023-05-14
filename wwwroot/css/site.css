@@ -1,0 +1,57 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.pos-right {
+    position: absolute;
+    right: 10px;
+}
+
+
+.pos-right-2 {
+    position: absolute;
+    right: 100px;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background: url(https://i.ibb.co/VQmtgjh/6845078.png) no-repeat;
+    height: 100%;
+    font-family: sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;*/
+    /* remove the following line to enable scrolling */
+    /* overflow: hidden; */
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        background-size: cover;*/
+        /* add the following line to enable scrolling on mobile devices */
+        overflow: scroll;
+    }
+}
+
+
+
+
+
+
